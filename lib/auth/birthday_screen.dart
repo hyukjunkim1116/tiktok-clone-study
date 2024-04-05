@@ -17,15 +17,16 @@ class _BirthdayScreenState extends State<BirthdayScreen> {
   final TextEditingController _birthdayController = TextEditingController();
 
   late DateTime initialDate;
+  late DateTime maximumDate;
   late DateTime minimumDate;
 
   @override
   void initState() {
     super.initState();
     initialDate = DateTime.now();
-    minimumDate = DateTime(initialDate.year - 12, initialDate.month, initialDate.day);
-    _setTextFieldDate(initialDate);
-    _setTextFieldMinimumDate(minimumDate);
+    maximumDate = DateTime(initialDate.year - 12, initialDate.month, initialDate.day);
+    minimumDate = DateTime(initialDate.year - 172,initialDate.month, initialDate.day);
+    _setTextFieldDate(maximumDate);
   }
 
   @override
@@ -44,10 +45,6 @@ class _BirthdayScreenState extends State<BirthdayScreen> {
 
   void _setTextFieldDate(DateTime date) {
     final textDate = date.toString().split(" ").first;
-    _birthdayController.value = TextEditingValue(text: textDate);
-  }
-  void _setTextFieldMinimumDate(DateTime date) {
-    final textDate = date.toString();
     _birthdayController.value = TextEditingValue(text: textDate);
   }
 
@@ -111,9 +108,9 @@ class _BirthdayScreenState extends State<BirthdayScreen> {
       bottomNavigationBar: BottomAppBar(
         height: 350,
         child: CupertinoDatePicker(
-          maximumDate: initialDate,
+          maximumDate: maximumDate,
           minimumDate: minimumDate,
-          initialDateTime: initialDate,
+          initialDateTime: maximumDate,
           mode: CupertinoDatePickerMode.date,
           onDateTimeChanged: _setTextFieldDate,
         ),
