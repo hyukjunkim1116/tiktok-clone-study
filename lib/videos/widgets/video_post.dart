@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok_clone/videos/widgets/video_button.dart';
 import 'package:video_player/video_player.dart';
@@ -30,6 +32,7 @@ class _VideoPostState extends State<VideoPost>
 
   late final AnimationController _animationController;
   bool _isPaused = false;
+  bool _isTagExpanded = false;
 
   @override
   void initState() {
@@ -46,7 +49,7 @@ class _VideoPostState extends State<VideoPost>
 
   void _initVideoPlayer() async {
     _videoPlayerController =
-        VideoPlayerController.asset("assets/videos/video.mp4");
+        VideoPlayerController.asset("assets/videos/video-test.mp4");
     await _videoPlayerController.initialize();
     await _videoPlayerController.setLooping(true);
     _videoPlayerController.addListener(_onVideoChange);
@@ -80,7 +83,12 @@ class _VideoPostState extends State<VideoPost>
       _isPaused = !_isPaused;
     });
   }
-
+  void _onToggleTag() {
+    setState(() {
+      _isTagExpanded = !_isTagExpanded;
+    });
+    print(_isTagExpanded);
+  }
   @override
   void dispose() {
     _videoPlayerController.dispose();
@@ -130,14 +138,14 @@ class _VideoPostState extends State<VideoPost>
               ),
             ),
           ),
-          const Positioned(
+          Positioned(
             bottom: 20,
             left: 10,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  "@니꼬",
+                const Text(
+                  "@혁준킴",
                   style: TextStyle(
                     fontSize: Sizes.size20,
                     color: Colors.white,
@@ -145,11 +153,42 @@ class _VideoPostState extends State<VideoPost>
                   ),
                 ),
                 Gaps.v10,
-                Text(
+                const Text(
                   "This is my house in Thailand!!!",
                   style: TextStyle(
                     fontSize: Sizes.size16,
                     color: Colors.white,
+                  ),
+                ),
+                Gaps.v5,
+                GestureDetector(
+                  onTap: _onToggleTag,
+                  child: Row(
+                    children: [
+                      SizedBox(
+                        width: _isTagExpanded ? 300 : 200,
+                        child: Text(
+                          overflow: _isTagExpanded ? TextOverflow.visible :TextOverflow.ellipsis,
+                          "#googleearth #googlemaps #googleearth #googlemaps#googleearth #googlemaps#googleearth #googlemaps#googleearth #googlemaps#googleearth #googlemaps#googleearth #googlemaps",
+                          style: const TextStyle(
+                            fontSize: Sizes.size14,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      Visibility(
+                        visible: !_isTagExpanded,
+                        child: const Text(
+                          "See more",
+                          style: TextStyle(
+                            fontSize: Sizes.size14,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 )
               ],
