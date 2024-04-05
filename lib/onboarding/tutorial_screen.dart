@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
 
+import '../main_navigation/main_navigation_screen.dart';
+
 enum Direction { right, left }
 
 enum Page { first, second }
@@ -47,12 +49,20 @@ class _TutorialScreenState extends State<TutorialScreen> {
     } else {
       return BottomAppBar(
         child: CupertinoButton(
-          onPressed: () {},
+          onPressed: _onEnterAppTap,
           color: Theme.of(context).primaryColor,
           child: const Text('Enter the app!'),
         ),
       );
     }
+  }
+  void _onEnterAppTap() {
+    Navigator.of(context).pushAndRemoveUntil(
+      MaterialPageRoute(
+        builder: (context) => const MainNavigationScreen(),
+      ),
+          (route) => false,
+    );
   }
   @override
   Widget build(BuildContext context) {
