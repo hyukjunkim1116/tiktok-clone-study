@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:tiktok_clone/auth/email_screen.dart';
 import 'package:tiktok_clone/auth/login_screen.dart';
 import 'package:tiktok_clone/auth/widgets/auth_button.dart';
 import '../constants/gaps.dart';
@@ -7,11 +8,12 @@ import '../constants/sizes.dart';
 
 class SignUpScreen extends StatelessWidget {
   const SignUpScreen({super.key});
-  void onLoginTap(BuildContext context) {
+  void _onLoginTap(BuildContext context) {
     Navigator.of(context).push(
       MaterialPageRoute(builder: (context) => const LoginScreen())
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,6 +43,7 @@ class SignUpScreen extends StatelessWidget {
               ),
               Gaps.v40,
               AuthButton(
+                toWidget: EmailScreen(),
                 icon: FaIcon(FontAwesomeIcons.user),
                 text: "Use email & password",
               ),
@@ -54,7 +57,7 @@ class SignUpScreen extends StatelessWidget {
         ),
       ),
       bottomNavigationBar: BottomAppBar(
-        color: Colors.grey.shade100,
+      color: Colors.grey.shade50,
         elevation: 2,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -67,7 +70,7 @@ class SignUpScreen extends StatelessWidget {
             ),
             Gaps.h5,
             GestureDetector(
-              onTap: ()=>onLoginTap(context),
+              onTap: ()=>_onLoginTap(context),
               child: Text(
                 "Log in",
                 style: TextStyle(
