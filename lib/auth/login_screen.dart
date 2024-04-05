@@ -4,6 +4,8 @@ import 'package:tiktok_clone/auth/widgets/auth_button.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
 
+import 'login_form_screen.dart';
+
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
 
@@ -40,6 +42,7 @@ class LoginScreen extends StatelessWidget {
               ),
               Gaps.v40,
               AuthButton(
+                toWidget: LoginFormScreen(),
                 icon: FaIcon(FontAwesomeIcons.user),
                 text: "Use email & password",
               ),
