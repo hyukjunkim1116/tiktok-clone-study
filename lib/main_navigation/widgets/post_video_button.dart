@@ -5,7 +5,13 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
 
 class PostVideoButton extends StatefulWidget {
-  const PostVideoButton({super.key, required this.height,});
+  const PostVideoButton({
+    super.key,
+    required this.height,
+    required this.inverted,
+  });
+
+  final bool inverted;
   final double height;
 
   @override
@@ -14,14 +20,14 @@ class PostVideoButton extends StatefulWidget {
 
 class _PostVideoButtonState extends State<PostVideoButton> {
   Timer? _timer;
-  bool _isBubbleVisible=false;
+  bool _isBubbleVisible = false;
+
   void _startTimer() {
-    _timer = Timer(const Duration(seconds: 1),
-        () {
+    _timer = Timer(const Duration(seconds: 1), () {
       setState(() {
         _isBubbleVisible = true;
       });
-        });
+    });
   }
 
   void _stopTimer() {
@@ -76,7 +82,7 @@ class _PostVideoButtonState extends State<PostVideoButton> {
               horizontal: Sizes.size11,
             ),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: !widget.inverted ? Colors.white : Colors.black,
               borderRadius: BorderRadius.circular(
                 Sizes.size6,
               ),
@@ -84,10 +90,10 @@ class _PostVideoButtonState extends State<PostVideoButton> {
             child: AnimatedOpacity(
               opacity: _isBubbleVisible ? 0 : 1,
               duration: const Duration(milliseconds: 300),
-              child: const Center(
+              child: Center(
                 child: FaIcon(
                   FontAwesomeIcons.plus,
-                  color: Colors.black,
+                  color: !widget.inverted ? Colors.black : Colors.white,
                   size: 18,
                 ),
               ),
