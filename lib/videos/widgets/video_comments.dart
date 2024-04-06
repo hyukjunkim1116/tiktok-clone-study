@@ -16,7 +16,6 @@ class _VideoCommentsState extends State<VideoComments> {
 
   void _onClosePressed() {
     Navigator.of(context).pop();
-    print("here123");
   }
 
   void _stopWriting() {
