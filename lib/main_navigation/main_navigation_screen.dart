@@ -5,6 +5,7 @@ import 'package:tiktok_clone/main_navigation/widgets/post_video_button.dart';
 
 import '../constants/gaps.dart';
 import '../discover/discover_screen.dart';
+import '../inbox/inbox_screen.dart';
 import '../videos/video_timeline_screen.dart';
 
 class MainNavigationScreen extends StatefulWidget {
@@ -52,7 +53,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
           ),
           Offstage(
             offstage: _selectedIndex != 3,
-            child: Container(),
+            child: const InboxScreen(),
           ),
           Offstage(
             offstage: _selectedIndex != 4,
