@@ -101,15 +101,11 @@ class _VideoPostState extends State<VideoPost>
       _isTagExpanded = !_isTagExpanded;
     });
   }
-  void _onToggleVolumeTap() async{
-    if (_videoPlayerController.value.volume == 0) {
-      await _videoPlayerController.setVolume(1);
-    } else {
-      await _videoPlayerController.setVolume(0);
+  void _onToggleVolumeTap() async {
+    if (_videoPlayerController.value.isInitialized) {
+      double newVolume = _videoPlayerController.value.volume == 0 ? 1 : 0;
+      await _videoPlayerController.setVolume(newVolume);
     }
-    setState(() {
-
-    });
   }
 
   void _onCommentsTap(BuildContext context) async {

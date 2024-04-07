@@ -43,6 +43,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
+    print("$width.asd");
     return DefaultTabController(
       length: tabs.length,
       child: Scaffold(
@@ -60,6 +61,8 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
             ),
           ),
           bottom: TabBar(
+            indicatorSize: TabBarIndicatorSize.label,
+            tabAlignment: TabAlignment.center,
             splashFactory: NoSplash.splashFactory,
             padding: const EdgeInsets.symmetric(
               horizontal: Sizes.size16,
