@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
+import 'package:tiktok_clone/users/widgets/user_profile_info_text.dart';
 
 class UserProfileScreen extends StatefulWidget {
   const UserProfileScreen({super.key});
@@ -62,46 +63,11 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Column(
-                      children: [
-                        const Text(
-                          "971",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: Sizes.size18,
-                          ),
-                        ),
-                        Gaps.v3,
-                        Text("Following",
-                            style: TextStyle(
-                              color: Colors.grey.shade500,
-                            ))
-                      ],
-                    ),
-                     VerticalDivider(
-                      width: Sizes.size32,
-                      thickness: Sizes.size1,
-                      color: Colors.grey.shade400,
-                      indent: Sizes.size14,
-                      endIndent: Sizes.size14,
-                    ),
-                    Column(
-                      children: [
-                        const Text(
-                          "10M",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: Sizes.size18,
-                          ),
-                        ),
-                        Gaps.v3,
-                        Text(
-                          "Followers",
-                          style: TextStyle(
-                            color: Colors.grey.shade500,
-                          ),
-                        )
-                      ],
+                    UserProfileInfoText(
+                      info: '971',
+                      description: 'Following',
+                      infoSize: Sizes.size18,
+                      descriptionColor: Colors.grey.shade500,
                     ),
                     VerticalDivider(
                       width: Sizes.size32,
@@ -110,24 +76,25 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                       indent: Sizes.size14,
                       endIndent: Sizes.size14,
                     ),
-                    Column(
-                      children: [
-                        const Text(
-                          "194.3M",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: Sizes.size18,
-                          ),
-                        ),
-                        Gaps.v3,
-                        Text(
-                          "Likes",
-                          style: TextStyle(
-                            color: Colors.grey.shade500,
-                          ),
-                        )
-                      ],
-                    )
+                    UserProfileInfoText(
+                      info: "10M",
+                      description: "Followers",
+                      infoSize: Sizes.size18,
+                      descriptionColor: Colors.grey.shade500,
+                    ),
+                    VerticalDivider(
+                      width: Sizes.size32,
+                      thickness: Sizes.size1,
+                      color: Colors.grey.shade400,
+                      indent: Sizes.size14,
+                      endIndent: Sizes.size14,
+                    ),
+                    UserProfileInfoText(
+                      info: "194.3M",
+                      description: "Likes",
+                      infoSize: Sizes.size18,
+                      descriptionColor: Colors.grey.shade500,
+                    ),
                   ],
                 ),
               )
