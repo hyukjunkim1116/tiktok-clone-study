@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -53,6 +54,10 @@ class _VideoPostState extends State<VideoPost>
         VideoPlayerController.asset("assets/videos/video-test.mp4");
     await _videoPlayerController.initialize();
     await _videoPlayerController.setLooping(true);
+
+    if (kIsWeb) {
+      await _videoPlayerController.setVolume(0);
+    }
     _videoPlayerController.addListener(_onVideoChange);
     setState(() {});
   }
@@ -96,6 +101,16 @@ class _VideoPostState extends State<VideoPost>
       _isTagExpanded = !_isTagExpanded;
     });
   }
+  void _onToggleVolumeTap() async{
+    if (_videoPlayerController.value.volume == 0) {
+      await _videoPlayerController.setVolume(1);
+    } else {
+      await _videoPlayerController.setVolume(0);
+    }
+    setState(() {
+
+    });
+  }
 
   void _onCommentsTap(BuildContext context) async {
     if (_videoPlayerController.value.isPlaying) {
@@ -113,6 +128,7 @@ class _VideoPostState extends State<VideoPost>
   @override
   void dispose() {
     _videoPlayerController.dispose();
+    _animationController.dispose();
     super.dispose();
   }
 
@@ -230,6 +246,17 @@ class _VideoPostState extends State<VideoPost>
                     "https://avatars.githubusercontent.com/u/126032661?v=4",
                   ),
                   child: Text("니꼬"),
+                ),
+                Gaps.v24,
+                GestureDetector(
+                  onTap: _onToggleVolumeTap,
+                  child: VideoButton(
+                    icon: _videoPlayerController.value.volume == 1.0
+                        ? FontAwesomeIcons.volumeHigh
+                        : FontAwesomeIcons.volumeOff,
+                    text: _videoPlayerController.value.volume == 1.0
+                        ? "음소거 하기" : "음소거 풀기",
+                  ),
                 ),
                 Gaps.v24,
                 const VideoButton(
