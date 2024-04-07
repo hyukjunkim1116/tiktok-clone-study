@@ -7,6 +7,8 @@ import 'package:tiktok_clone/constants/sizes.dart';
 import 'package:tiktok_clone/users/widgets/persistent_tab_bar.dart';
 import 'package:tiktok_clone/users/widgets/user_profile_info_text.dart';
 
+import '../settings/settings_screen.dart';
+
 class UserProfileScreen extends StatefulWidget {
   const UserProfileScreen({super.key});
 
@@ -15,6 +17,13 @@ class UserProfileScreen extends StatefulWidget {
 }
 
 class _UserProfileScreenState extends State<UserProfileScreen> {
+  void _onGearPressed() {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => const SettingsScreen(),
+      ),
+    );
+  }
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -27,7 +36,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 title: const Text('니꼬'),
                 actions: [
                   IconButton(
-                    onPressed: () {},
+                    onPressed: _onGearPressed,
                     icon: const FaIcon(
                       FontAwesomeIcons.gear,
                       size: Sizes.size20,
@@ -112,7 +121,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                           SizedBox(
                             height: 50,
                             child: Container(
-                                alignment: Alignment.center,
+                              alignment: Alignment.center,
                               padding: const EdgeInsets.symmetric(
                                 horizontal: Sizes.size56,
                               ),
@@ -140,15 +149,15 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                               decoration: BoxDecoration(
                                 border: Border.all(
                                   color: Colors.grey.shade300,
-                                    width: 1,
-                                    style: BorderStyle.solid,
+                                  width: 1,
+                                  style: BorderStyle.solid,
                                 ),
                                 borderRadius: const BorderRadius.all(
                                   Radius.circular(Sizes.size4),
                                 ),
                               ),
-                              child:  const FaIcon(
-                                  FontAwesomeIcons.youtube,
+                              child: const FaIcon(
+                                FontAwesomeIcons.youtube,
                               ),
                             ),
                           ),
@@ -167,7 +176,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                                   Radius.circular(Sizes.size4),
                                 ),
                               ),
-                              child:  const FaIcon(
+                              child: const FaIcon(
                                 FontAwesomeIcons.shapes,
                               ),
                             ),
@@ -225,14 +234,40 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 ),
                 itemBuilder: (context, index) => Column(
                   children: [
-                    AspectRatio(
-                      aspectRatio: 9 / 14,
-                      child: FadeInImage.assetNetwork(
-                        fit: BoxFit.cover,
-                        placeholder: "assets/images/placeholder.jpg",
-                        image:
-                        "https://images.unsplash.com/photo-1673844969019-c99b0c933e90?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1480&q=80",
-                      ),
+                    Stack(
+                      children: [
+                        AspectRatio(
+                          aspectRatio: 9 / 14,
+                          child: FadeInImage.assetNetwork(
+                            fit: BoxFit.cover,
+                            placeholder: "assets/images/placeholder.jpg",
+                            image:
+                                "https://images.unsplash.com/photo-1673844969019-c99b0c933e90?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1480&q=80",
+                          ),
+                        ),
+                        Positioned(
+                          bottom: 8,
+                          left: 10,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const FaIcon(
+                                size: Sizes.size14,
+                                FontAwesomeIcons.play,
+                                color: Colors.white,
+                              ),
+                              Gaps.h6,
+                              Text(
+                                index <10 ? "$index.${index}K" : "$index.${index%10}M",
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: Sizes.size14,
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
@@ -247,4 +282,3 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     );
   }
 }
-

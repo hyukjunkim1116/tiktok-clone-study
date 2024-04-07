@@ -2,3 +2,5 @@
 option + command + L => 정렬
 ~7.9/ 24.4.6
 ~11.4/ 24.4.7
+~12.8/ 24.4.7
+widget catalog - 위젯 리스트
