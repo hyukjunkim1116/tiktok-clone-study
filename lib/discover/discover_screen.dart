@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:tiktok_clone/constants/breakpoints.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
-import 'package:tiktok_clone/discover/widgets/discover_search_text_field.dart';
 
 final tabs = [
   "Top",
@@ -22,71 +22,47 @@ class DiscoverScreen extends StatefulWidget {
   State<DiscoverScreen> createState() => _DiscoverScreenState();
 }
 
-class _DiscoverScreenState extends State<DiscoverScreen>
-    with SingleTickerProviderStateMixin {
-  late TabController _tabController;
-  bool _isSearching = false;
+class _DiscoverScreenState extends State<DiscoverScreen> {
+  final TextEditingController _textEditingController =
+      TextEditingController(text: "Initial Text");
 
-  void _handleTabSelection() {
-    // 탭이 변경될 때 키보드를 해제하는 로직
-    FocusScope.of(context).unfocus();
-    setState(() {
-      _isSearching = false;
-    });
+  void _onSearchChanged(String value) {
+    print("Searching form $value");
   }
 
-  void _onBodyTap() {
-    FocusScope.of(context).unfocus();
-    setState(() {
-      _isSearching = false;
-    });
-  }
-
-  void _setIsSearching() {
-    setState(() {
-      _isSearching = true;
-    });
-  }
-
-  void _setIsntSearching() {
-    setState(() {
-      _isSearching = false;
-    });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _tabController = TabController(length: tabs.length, vsync: this);
-    _tabController.addListener(_handleTabSelection);
+  void _onSearchSubmitted(String value) {
+    print("Submitted $value");
   }
 
   @override
   void dispose() {
-    _tabController.removeListener(_handleTabSelection);
-    _tabController.dispose();
+    _textEditingController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
     return DefaultTabController(
       length: tabs.length,
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
           elevation: 1,
-          title: DiscoverSearchTextField(
-            isSearching: _isSearching,
-            setIsSearching: _setIsSearching,
-            setIsntSearching: _setIsntSearching,
+          title: ConstrainedBox(
+            constraints: const BoxConstraints(
+              maxWidth: Breakpoints.sm,
+            ),
+            child: CupertinoSearchTextField(
+              controller: _textEditingController,
+              onChanged: _onSearchChanged,
+              onSubmitted: _onSearchSubmitted,
+            ),
           ),
           bottom: TabBar(
-            controller: _tabController,
             splashFactory: NoSplash.splashFactory,
-            tabAlignment: TabAlignment.center,
             padding: const EdgeInsets.symmetric(
-              horizontal: Sizes.size12,
+              horizontal: Sizes.size16,
             ),
             isScrollable: true,
             labelStyle: const TextStyle(
@@ -104,25 +80,22 @@ class _DiscoverScreenState extends State<DiscoverScreen>
             ],
           ),
         ),
-        body: GestureDetector(
-          onTap: _onBodyTap,
-          child: TabBarView(
-            controller: _tabController,
-            children: [
-              GridView.builder(
-                keyboardDismissBehavior:
-                    ScrollViewKeyboardDismissBehavior.onDrag,
-                itemCount: 20,
-                padding: const EdgeInsets.all(
-                  Sizes.size10,
-                ),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: Sizes.size10,
-                  mainAxisSpacing: Sizes.size10,
-                  childAspectRatio: 9 / 21,
-                ),
-                itemBuilder: (context, index) => Column(
+        body: TabBarView(
+          children: [
+            GridView.builder(
+              keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+              itemCount: 20,
+              padding: const EdgeInsets.all(
+                Sizes.size10,
+              ),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: width > Breakpoints.lg ? 5 : 2,
+                crossAxisSpacing: Sizes.size10,
+                mainAxisSpacing: Sizes.size10,
+                childAspectRatio: 9 / 20,
+              ),
+              itemBuilder: (context, index) => LayoutBuilder(
+                builder: (context, constraints) => Column(
                   children: [
                     Container(
                       clipBehavior: Clip.hardEdge,
@@ -134,69 +107,72 @@ class _DiscoverScreenState extends State<DiscoverScreen>
                         child: FadeInImage.assetNetwork(
                           fit: BoxFit.cover,
                           placeholder: "assets/images/placeholder.jpg",
-                          image: "https://source.unsplash.com/random/?$index",
+                          image:
+                              "https://images.unsplash.com/photo-1673844969019-c99b0c933e90?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1480&q=80",
                         ),
                       ),
                     ),
                     Gaps.v10,
-                    const Text(
-                      "This is a very long caption for my tiktok that im upload just now currently.",
+                    Text(
+                      "${constraints.maxWidth} This is a very long caption for my tiktok that im upload just now currently.",
                       overflow: TextOverflow.ellipsis,
                       maxLines: 2,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: Sizes.size16 + Sizes.size2,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     Gaps.v8,
-                    DefaultTextStyle(
-                      style: TextStyle(
-                        color: Colors.grey.shade600,
-                        fontWeight: FontWeight.w600,
-                      ),
-                      child: Row(
-                        children: [
-                          const CircleAvatar(
-                            radius: 12,
-                            backgroundImage: NetworkImage(
-                              "https://avatars.githubusercontent.com/u/3612017",
+                    if (constraints.maxWidth < 200 ||
+                        constraints.maxWidth > 250)
+                      DefaultTextStyle(
+                        style: TextStyle(
+                          color: Colors.grey.shade600,
+                          fontWeight: FontWeight.w600,
+                        ),
+                        child: Row(
+                          children: [
+                            const CircleAvatar(
+                              radius: 12,
+                              backgroundImage: NetworkImage(
+                                "https://avatars.githubusercontent.com/u/3612017",
+                              ),
                             ),
-                          ),
-                          Gaps.h4,
-                          const Expanded(
-                            child: Text(
-                              "My avatar is going to be very long",
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
+                            Gaps.h4,
+                            const Expanded(
+                              child: Text(
+                                "My avatar is going to be very long",
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
                             ),
-                          ),
-                          Gaps.h4,
-                          FaIcon(
-                            FontAwesomeIcons.heart,
-                            size: Sizes.size16,
-                            color: Colors.grey.shade600,
-                          ),
-                          Gaps.h2,
-                          const Text(
-                            "2.5M",
-                          )
-                        ],
-                      ),
-                    )
+                            Gaps.h4,
+                            FaIcon(
+                              FontAwesomeIcons.heart,
+                              size: Sizes.size16,
+                              color: Colors.grey.shade600,
+                            ),
+                            Gaps.h2,
+                            const Text(
+                              "2.5M",
+                            )
+                          ],
+                        ),
+                      )
                   ],
                 ),
               ),
-              for (var tab in tabs.skip(1))
-                Center(
-                  child: Text(
-                    tab,
-                    style: const TextStyle(
-                      fontSize: 28,
-                    ),
+            ),
+            for (var tab in tabs.skip(1))
+              Center(
+                child: Text(
+                  tab,
+                  style: const TextStyle(
+                    fontSize: 28,
                   ),
-                )
-            ],
-          ),
+                ),
+              )
+          ],
         ),
       ),
     );
