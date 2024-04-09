@@ -7,3 +7,5 @@ option + command + L => 정렬
 widget catalog - 위젯 리스트
 metarial design type system
 ~15.2/ 24.4.9
+flex_color_scheme
+~15.9/ 24.4.10
