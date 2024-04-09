@@ -4,6 +4,7 @@ import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
 
 import '../main_navigation/main_navigation_screen.dart';
+import '../utils.dart';
 
 enum Direction { right, left }
 
@@ -50,7 +51,7 @@ class _TutorialScreenState extends State<TutorialScreen> {
       return BottomAppBar(
         child: CupertinoButton(
           onPressed: _onEnterAppTap,
-          color: Theme.of(context).primaryColor,
+          color: isDarkMode(context) ? Colors.black : Colors.white,
           child: const Text('Enter the app!'),
         ),
       );
