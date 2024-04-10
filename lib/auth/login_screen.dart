@@ -8,10 +8,11 @@ import '../utils.dart';
 import 'login_form_screen.dart';
 
 class LoginScreen extends StatelessWidget {
+  static String routeName = "/login";
   const LoginScreen({super.key});
 
   void  _onSignUpTap(BuildContext context) {
-    Navigator.of(context).pop();
+    Navigator.of(context).pop("Hello!");
   }
 
   @override
