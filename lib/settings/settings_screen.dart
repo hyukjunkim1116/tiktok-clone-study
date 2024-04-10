@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -48,30 +49,33 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 firstDate: DateTime(1980),
                 lastDate: DateTime(2030),
               );
-              print(date);
-              if (mounted) {
-                final time = await showTimePicker(
-                  context: context,
-                  initialTime: TimeOfDay.now(),
-                );
+              if (kDebugMode) {
+                print(date);
+              }
+              if (!mounted) return;
+              final time = await showTimePicker(
+                context: context,
+                initialTime: TimeOfDay.now(),
+              );
+              if (kDebugMode) {
                 print(time);
               }
-              if (mounted) {
-                final booking = await showDateRangePicker(
-                  context: context,
-                  firstDate: DateTime(1980),
-                  lastDate: DateTime(2030),
-                  builder: (context, child) {
-                    return Theme(
-                      data: ThemeData(
+              if (!mounted) return;
+              final booking = await showDateRangePicker(
+                context: context,
+                firstDate: DateTime(1980),
+                lastDate: DateTime(2030),
+                builder: (context, child) {
+                  return Theme(
+                    data: ThemeData(
                         appBarTheme: const AppBarTheme(
                             foregroundColor: Colors.white,
-                            backgroundColor: Colors.black),
-                      ),
-                      child: child!,
-                    );
-                  },
-                );
+                            backgroundColor: Colors.black)),
+                    child: child!,
+                  );
+                },
+              );
+              if (kDebugMode) {
                 print(booking);
               }
             },

@@ -44,6 +44,7 @@ class _TutorialScreenState extends State<TutorialScreen> {
       });
     }
   }
+
   Widget? _bottomAppBar() {
     if (_showingPage == Page.first) {
       return null;
@@ -51,50 +52,52 @@ class _TutorialScreenState extends State<TutorialScreen> {
       return BottomAppBar(
         child: CupertinoButton(
           onPressed: _onEnterAppTap,
-          color: isDarkMode(context) ? Colors.black : Colors.white,
+          color: Theme.of(context).primaryColor,
           child: const Text('Enter the app!'),
         ),
       );
     }
   }
+
   void _onEnterAppTap() {
     Navigator.of(context).pushAndRemoveUntil(
       MaterialPageRoute(
         builder: (context) => const MainNavigationScreen(),
       ),
-          (route) => false,
+      (route) => false,
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onPanUpdate: _onPanUpdate,
       onPanEnd: _onPanEnd,
       child: Scaffold(
-        body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: Sizes.size24),
-          child: SafeArea(
-            child: AnimatedCrossFade(
-              firstChild: const Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Gaps.v80,
-                    Text(
-                      "Watch cool videos!",
-                      style: TextStyle(
-                        fontSize: Sizes.size40,
-                        fontWeight: FontWeight.bold,
+          body: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: Sizes.size24),
+            child: SafeArea(
+              child: AnimatedCrossFade(
+                firstChild: const Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Gaps.v80,
+                      Text(
+                        "Watch cool videos!",
+                        style: TextStyle(
+                          fontSize: Sizes.size40,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-                    Gaps.v16,
-                    Text(
-                      "Videos are personalized for you based on what you watch, like, and share.",
-                      style: TextStyle(
-                        fontSize: Sizes.size20,
-                      ),
-                    )
-                  ]),
-              secondChild: const Column(
+                      Gaps.v16,
+                      Text(
+                        "Videos are personalized for you based on what you watch, like, and share.",
+                        style: TextStyle(
+                          fontSize: Sizes.size20,
+                        ),
+                      )
+                    ]),
+                secondChild: const Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Gaps.v80,
@@ -112,16 +115,16 @@ class _TutorialScreenState extends State<TutorialScreen> {
                         fontSize: Sizes.size20,
                       ),
                     )
-                  ]),
-              crossFadeState: _showingPage == Page.first
-                  ? CrossFadeState.showFirst
-                  : CrossFadeState.showSecond,
-              duration: const Duration(milliseconds: 300),
+                  ],
+                ),
+                crossFadeState: _showingPage == Page.first
+                    ? CrossFadeState.showFirst
+                    : CrossFadeState.showSecond,
+                duration: const Duration(milliseconds: 300),
+              ),
             ),
           ),
-        ),
-        bottomNavigationBar: _bottomAppBar()
-      ),
+          bottomNavigationBar: _bottomAppBar()),
     );
   }
 }

@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:tiktok_clone/main_navigation/main_navigation_screen.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'auth/sign_up_screen.dart';
 import 'constants/sizes.dart';
-import 'inbox/activity_screen.dart';
-
+import 'package:tiktok_clone/generated/l10n.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SystemChrome.setPreferredOrientations(
@@ -24,9 +22,20 @@ class TikTokApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // S.load(const Locale("en"));
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'TikTok clone flutter study',
+      localizationsDelegates: const [
+        S.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('en'),
+        Locale('ko'),
+      ],
       themeMode: ThemeMode.system,
       theme: ThemeData(
         textTheme: Typography.blackMountainView,

@@ -1,12 +1,12 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:tiktok_clone/auth/username_screen.dart';
 import 'package:tiktok_clone/auth/widgets/auth_button.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
-import '../utils.dart';
+import 'package:tiktok_clone/generated/l10n.dart';
+import 'package:tiktok_clone/utils.dart';
+
 import 'login_screen.dart';
 
 class SignUpScreen extends StatelessWidget {
@@ -49,19 +49,19 @@ class SignUpScreen extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Gaps.v80,
-                  const Text(
-                    "Sign up for TikTok",
-                    style: TextStyle(
+                  Text(
+                    S.of(context).signUpTitle("TikTok", DateTime.now()),
+                    style: const TextStyle(
                       fontSize: Sizes.size24,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
                   Gaps.v20,
-                  const Opacity(
+                  Opacity(
                     opacity: 0.7,
                     child: Text(
-                      "Create a profile, follow other accounts, make your own videos, and more.",
-                      style: TextStyle(
+                      S.of(context).signUpSubtitle(19687),
+                      style: const TextStyle(
                         fontSize: Sizes.size16,
                       ),
                       textAlign: TextAlign.center,
@@ -71,15 +71,15 @@ class SignUpScreen extends StatelessWidget {
                   if (orientation == Orientation.portrait) ...[
                     GestureDetector(
                       onTap: () => _onEmailTap(context),
-                      child: const AuthButton(
-                        icon: FaIcon(FontAwesomeIcons.user),
-                        text: "Use email & password",
+                      child: AuthButton(
+                        icon: const FaIcon(FontAwesomeIcons.user),
+                        text: S.of(context).emailPasswordButton,
                       ),
                     ),
                     Gaps.v16,
-                    const AuthButton(
-                      icon: FaIcon(FontAwesomeIcons.apple),
-                      text: "Continue with Apple",
+                    AuthButton(
+                      icon: const FaIcon(FontAwesomeIcons.apple),
+                      text: S.of(context).appleButton,
                     )
                   ],
                   if (orientation == Orientation.landscape)
@@ -88,17 +88,17 @@ class SignUpScreen extends StatelessWidget {
                         Expanded(
                           child: GestureDetector(
                             onTap: () => _onEmailTap(context),
-                            child: const AuthButton(
-                              icon: FaIcon(FontAwesomeIcons.user),
-                              text: "Use email & password",
+                            child: AuthButton(
+                              icon: const FaIcon(FontAwesomeIcons.user),
+                              text: S.of(context).emailPasswordButton,
                             ),
                           ),
                         ),
                         Gaps.h16,
-                        const Expanded(
+                        Expanded(
                           child: AuthButton(
-                            icon: FaIcon(FontAwesomeIcons.apple),
-                            text: "Continue with Apple",
+                            icon: const FaIcon(FontAwesomeIcons.apple),
+                            text: S.of(context).appleButton,
                           ),
                         )
                       ],
@@ -107,31 +107,38 @@ class SignUpScreen extends StatelessWidget {
               ),
             ),
           ),
-          bottomNavigationBar: BottomAppBar(
-            color: isDarkMode(context) ? null : Colors.grey.shade50,
-            elevation: 2,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text(
-                  'Already have an account?',
-                  style: TextStyle(
-                    fontSize: Sizes.size16,
-                  ),
-                ),
-                Gaps.h5,
-                GestureDetector(
-                  onTap: () => _onLoginTap(context),
-                  child: Text(
-                    'Log in',
-                    style: TextStyle(
+          bottomNavigationBar: Container(
+            color: isDarkMode(context)
+                ? Theme.of(context).appBarTheme.backgroundColor
+                : Colors.grey.shade50,
+            child: Padding(
+              padding: const EdgeInsets.only(
+                top: Sizes.size32,
+                bottom: Sizes.size64,
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    S.of(context).alreadyHaveAnAccount,
+                    style: const TextStyle(
                       fontSize: Sizes.size16,
-                      fontWeight: FontWeight.w600,
-                      color: Theme.of(context).primaryColor,
                     ),
                   ),
-                ),
-              ],
+                  Gaps.h5,
+                  GestureDetector(
+                    onTap: () => _onLoginTap(context),
+                    child: Text(
+                      S.of(context).logIn("female"),
+                      style: TextStyle(
+                        fontSize: Sizes.size16,
+                        fontWeight: FontWeight.w600,
+                        color: Theme.of(context).primaryColor,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         );
