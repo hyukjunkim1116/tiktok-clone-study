@@ -13,8 +13,17 @@ class VideoRecordingScreen extends StatefulWidget {
 
 class _VideoRecordingScreenState extends State<VideoRecordingScreen> {
   bool _hasPermission = false;
+  bool _deniedPermission = false;
+  bool _isSelfieMode = false;
+  late FlashMode _flashMode;
 
-  late final CameraController _cameraController;
+  late CameraController _cameraController;
+
+  Future<void> _setFlashMode(FlashMode newFlashMode) async {
+    await _cameraController.setFlashMode(newFlashMode);
+    _flashMode = newFlashMode;
+    setState(() {});
+  }
 
   Future<void> initCamera() async {
     final cameras = await availableCameras();
@@ -24,27 +33,34 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen> {
     }
 
     _cameraController = CameraController(
-      cameras[0],
+      cameras[_isSelfieMode ? 1 : 0],
       ResolutionPreset.ultraHigh,
     );
 
     await _cameraController.initialize();
+    _flashMode = _cameraController.value.flashMode;
+  }
+
+  Future<void> _toggleSelfieMode() async {
+    _isSelfieMode = !_isSelfieMode;
+    await initCamera();
+    setState(() {});
   }
 
   Future<void> initPermissions() async {
+    print("hi");
     final cameraPermission = await Permission.camera.request();
     final micPermission = await Permission.microphone.request();
-
     final cameraDenied =
         cameraPermission.isDenied || cameraPermission.isPermanentlyDenied;
-
     final micDenied =
         micPermission.isDenied || micPermission.isPermanentlyDenied;
-
     if (!cameraDenied && !micDenied) {
       _hasPermission = true;
       await initCamera();
       setState(() {});
+    } else {
+      _deniedPermission = true;
     }
   }
 
@@ -61,20 +77,80 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen> {
       body: SizedBox(
         width: MediaQuery.of(context).size.width,
         child: !_hasPermission || !_cameraController.value.isInitialized
-            ? const Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              "Initializing...",
-              style:
-              TextStyle(color: Colors.white, fontSize: Sizes.size20),
-            ),
-            Gaps.v20,
-            CircularProgressIndicator.adaptive()
-          ],
-        )
-            : CameraPreview(_cameraController),
+            ? Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    _deniedPermission ? "please allow me!!" : "Initializing...",
+                    style: const TextStyle(
+                        color: Colors.white, fontSize: Sizes.size20),
+                  ),
+                  Gaps.v20,
+                  const CircularProgressIndicator.adaptive()
+                ],
+              )
+            : Stack(
+                alignment: Alignment.center,
+                children: [
+                  CameraPreview(_cameraController),
+                  Positioned(
+                    top: Sizes.size20,
+                    right: Sizes.size20,
+                    child: Column(
+                      children: [
+                        IconButton(
+                          color: Colors.white,
+                          onPressed: _toggleSelfieMode,
+                          icon: const Icon(
+                            Icons.cameraswitch,
+                          ),
+                        ),
+                        Gaps.v10,
+                        IconButton(
+                          color: _flashMode == FlashMode.off
+                              ? Colors.amber.shade200
+                              : Colors.white,
+                          onPressed: () => _setFlashMode(FlashMode.off),
+                          icon: const Icon(
+                            Icons.flash_off_rounded,
+                          ),
+                        ),
+                        Gaps.v10,
+                        IconButton(
+                          color: _flashMode == FlashMode.always
+                              ? Colors.amber.shade200
+                              : Colors.white,
+                          onPressed: () => _setFlashMode(FlashMode.always),
+                          icon: const Icon(
+                            Icons.flash_on_rounded,
+                          ),
+                        ),
+                        Gaps.v10,
+                        IconButton(
+                          color: _flashMode == FlashMode.auto
+                              ? Colors.amber.shade200
+                              : Colors.white,
+                          onPressed: () => _setFlashMode(FlashMode.auto),
+                          icon: const Icon(
+                            Icons.flash_auto_rounded,
+                          ),
+                        ),
+                        Gaps.v10,
+                        IconButton(
+                          color: _flashMode == FlashMode.torch
+                              ? Colors.amber.shade200
+                              : Colors.white,
+                          onPressed: () => _setFlashMode(FlashMode.torch),
+                          icon: const Icon(
+                            Icons.flashlight_on_rounded,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
       ),
     );
   }
