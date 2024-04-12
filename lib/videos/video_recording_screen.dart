@@ -18,9 +18,8 @@ class VideoRecordingScreen extends StatefulWidget {
 class _VideoRecordingScreenState extends State<VideoRecordingScreen>
     with TickerProviderStateMixin,WidgetsBindingObserver {
   bool _hasPermission = false;
-
   bool _isSelfieMode = false;
-
+  late double _zoomLevel;
   late final AnimationController _buttonAnimationController =
   AnimationController(
     vsync: this,
@@ -89,7 +88,8 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
     await _cameraController.initialize();
 
     await _cameraController.prepareForVideoRecording();
-
+    await _cameraController.setZoomLevel(4.5);
+    _zoomLevel = await _cameraController.getMaxZoomLevel()-3.5;
     _flashMode = _cameraController.value.flashMode;
 
     setState(() {});
@@ -172,13 +172,22 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
       ),
     );
   }
-
+  Future<void> _setZoomLevelByVerticalUpdate(DragUpdateDetails details) async{
+    if (!_cameraController.value.isRecordingVideo || _zoomLevel < 1 || _zoomLevel > 8) return;
+    if (details.globalPosition.dy>700) {
+      await _cameraController.setZoomLevel(_zoomLevel -(details.globalPosition.dy-700)/20);
+    } else {
+      await _cameraController.setZoomLevel(_zoomLevel +(700-details.globalPosition.dy)/20);
+    }
+    setState(() {});
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
       body: SizedBox(
         width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
         child: !_hasPermission || !_cameraController.value.isInitialized
             ? const Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -248,12 +257,13 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
               ),
             ),
             Positioned(
-              bottom: Sizes.size40,
+              bottom: Sizes.size64,
               width: MediaQuery.of(context).size.width,
               child: Row(
                 children: [
                   const Spacer(),
                   GestureDetector(
+                    onVerticalDragUpdate: (DragUpdateDetails detail) => _setZoomLevelByVerticalUpdate(detail),
                     onTapDown: _starRecording,
                     onTapUp: (details) => _stopRecording(),
                     child: ScaleTransition(
