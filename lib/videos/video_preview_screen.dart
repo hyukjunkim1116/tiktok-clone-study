@@ -54,6 +54,11 @@ class _VideoPreviewScreenState extends State<VideoPreviewScreen> {
 
     setState(() {});
   }
+  @override
+  void dispose() {
+    _videoPlayerController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {

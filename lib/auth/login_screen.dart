@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:tiktok_clone/auth/widgets/auth_button.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
@@ -12,10 +13,9 @@ class LoginScreen extends StatelessWidget {
   static String routeURL = "/login";
   const LoginScreen({super.key});
 
-  void  _onSignUpTap(BuildContext context) {
-    Navigator.of(context).pop("Hello!");
+  void _onSignUpTap(BuildContext context) {
+    context.pop();
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

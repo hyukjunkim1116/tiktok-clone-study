@@ -13,14 +13,20 @@ import 'login_screen.dart';
 class SignUpScreen extends StatelessWidget {
   static const routeURL = "/";
   static const routeName = "signUp";
+
   const SignUpScreen({super.key});
 
   void _onLoginTap(BuildContext context) async {
-    context.push(LoginScreen.routeName);
+    context.pushNamed(LoginScreen.routeName);
   }
 
   void _onEmailTap(BuildContext context) {
-    context.pushNamed(UsernameScreen.routeName);
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const UsernameScreen(),
+      ),
+    );
     // Navigator.of(context).push(
     //   PageRouteBuilder(
     //       transitionDuration: const Duration(seconds: 1),

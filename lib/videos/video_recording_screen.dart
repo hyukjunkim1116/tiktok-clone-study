@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:camera/camera.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
@@ -9,6 +12,8 @@ import 'package:tiktok_clone/videos/video_preview_screen.dart';
 import 'package:tiktok_clone/videos/widgets/video_flash_mode_button.dart';
 
 class VideoRecordingScreen extends StatefulWidget {
+  static const String routeName = "postVideo";
+  static const String routeURL = "/upload";
   const VideoRecordingScreen({super.key});
 
   @override
@@ -19,6 +24,7 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
     with TickerProviderStateMixin,WidgetsBindingObserver {
   bool _hasPermission = false;
   bool _isSelfieMode = false;
+  late final bool _noCamera = kDebugMode && Platform.isIOS;
   late double _zoomLevel;
   late final AnimationController _buttonAnimationController =
   AnimationController(
@@ -42,7 +48,13 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
   @override
   void initState() {
     super.initState();
-    initPermissions();
+    if (!_noCamera) {
+      initPermissions();
+    } else {
+      setState(() {
+        _hasPermission = true;
+      });
+    }
     WidgetsBinding.instance.addObserver(this);
     _progressAnimationController.addListener(() {
       setState(() {});
@@ -58,12 +70,15 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
   void dispose() {
     _progressAnimationController.dispose();
     _buttonAnimationController.dispose();
-    _cameraController.dispose();
+    if (!_noCamera) {
+      _cameraController.dispose();
+    }
     super.dispose();
   }
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (_noCamera) return;
     if (!_hasPermission) return;
     if (!_cameraController.value.isInitialized) return;
     if (state == AppLifecycleState.inactive) {
@@ -188,7 +203,7 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
       body: SizedBox(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
-        child: !_hasPermission || !_cameraController.value.isInitialized
+        child: !_hasPermission
             ? const Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
@@ -205,7 +220,16 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
             : Stack(
           alignment: Alignment.center,
           children: [
+            if (!_noCamera && _cameraController.value.isInitialized)
             CameraPreview(_cameraController),
+            const Positioned(
+              top: Sizes.size40,
+              left: Sizes.size20,
+              child: CloseButton(
+                color: Colors.white,
+              ),
+            ),
+            if (!_noCamera)
             Positioned(
               top: Sizes.size64,
               right: Sizes.size8,

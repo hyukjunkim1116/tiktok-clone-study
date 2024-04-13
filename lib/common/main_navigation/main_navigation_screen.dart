@@ -1,17 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:tiktok_clone/main_navigation/widgets/nav_tab.dart';
-import 'package:tiktok_clone/main_navigation/widgets/post_video_button.dart';
+import 'package:tiktok_clone/common/main_navigation/widgets/nav_tab.dart';
+import 'package:tiktok_clone/common/main_navigation/widgets/post_video_button.dart';
 
-import '../constants/gaps.dart';
-import '../discover/discover_screen.dart';
-import '../inbox/inbox_screen.dart';
-import '../users/user_profile_screen.dart';
-import '../utils.dart';
-import '../videos/video_timeline_screen.dart';
+import '../../constants/gaps.dart';
+import '../../discover/discover_screen.dart';
+import '../../inbox/inbox_screen.dart';
+import '../../users/user_profile_screen.dart';
+import '../../utils.dart';
+import '../../videos/video_timeline_screen.dart';
 
 class MainNavigationScreen extends StatefulWidget {
-  const MainNavigationScreen({super.key});
+  static const String routeName = "mainNavigation";
+
+  final String tab;
+
+  const MainNavigationScreen({
+    super.key,
+    required this.tab,
+  });
 
   @override
   State<MainNavigationScreen> createState() => _MainNavigationScreenState();
