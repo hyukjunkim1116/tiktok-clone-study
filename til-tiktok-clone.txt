@@ -11,3 +11,6 @@ flex_color_scheme
 ~15.9/ 24.4.10
 ~19.4/ 24.4.11
 camera awesome
+provider
+~20.11/ 24.4.14
+TODO:Notifier로 다크모드 토글 만들기
