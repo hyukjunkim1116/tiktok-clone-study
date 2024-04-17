@@ -14,3 +14,5 @@ camera awesome
 provider
 ~20.11/ 24.4.14
 TODO:Notifier로 다크모드 토글 만들기
+~21.5/ 24.4.17
+TODO:영상 소리 로컬하게 조작하기

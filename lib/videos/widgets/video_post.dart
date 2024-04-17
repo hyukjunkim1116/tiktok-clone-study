@@ -1,21 +1,17 @@
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:provider/provider.dart';
-
 import 'package:tiktok_clone/videos/widgets/video_button.dart';
 import 'package:tiktok_clone/videos/widgets/video_comments.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
-
 import '../../constants/gaps.dart';
 import '../../constants/sizes.dart';
 import '../../generated/l10n.dart';
 import '../view_models/playback_config_vm.dart';
 
-class VideoPost extends StatefulWidget {
+class VideoPost extends ConsumerStatefulWidget {
   final Function onVideoFinished;
 
   final int index;
@@ -27,10 +23,10 @@ class VideoPost extends StatefulWidget {
   });
 
   @override
-  State<VideoPost> createState() => _VideoPostState();
+  VideoPostState createState() => VideoPostState();
 }
 
-class _VideoPostState extends State<VideoPost>
+class VideoPostState extends ConsumerState<VideoPost>
     with SingleTickerProviderStateMixin {
   late final VideoPlayerController _videoPlayerController;
 
@@ -52,19 +48,19 @@ class _VideoPostState extends State<VideoPost>
       value: 1.5,
       duration: _animationDuration,
     );
-    context
-        .read<PlaybackConfigViewModel>()
-        .addListener(_onPlaybackConfigChanged);
   }
+
   void _onPlaybackConfigChanged() {
     if (!mounted) return;
-    final muted = context.read<PlaybackConfigViewModel>().muted;
+    final muted = ref.read(playbackConfigProvider).muted;
+    ref.read(playbackConfigProvider.notifier).setMuted(!muted);
     if (muted) {
       _videoPlayerController.setVolume(0);
     } else {
       _videoPlayerController.setVolume(1);
     }
   }
+
   void _initVideoPlayer() async {
     _videoPlayerController =
         VideoPlayerController.asset("assets/videos/video-test.mp4");
@@ -85,7 +81,6 @@ class _VideoPostState extends State<VideoPost>
         widget.onVideoFinished();
       }
     }
-
   }
 
   void _onVisibilityChanged(VisibilityInfo info) {
@@ -93,8 +88,7 @@ class _VideoPostState extends State<VideoPost>
     if (info.visibleFraction == 1 &&
         !_isPaused &&
         !_videoPlayerController.value.isPlaying) {
-      final autoplay = context.read<PlaybackConfigViewModel>().autoplay;
-      if (autoplay) {
+      if (ref.read(playbackConfigProvider).autoplay) {
         _videoPlayerController.play();
       }
     }
@@ -121,6 +115,7 @@ class _VideoPostState extends State<VideoPost>
       _isTagExpanded = !_isTagExpanded;
     });
   }
+
   void _onToggleVolumeTap() async {
     if (_videoPlayerController.value.isInitialized) {
       double newVolume = _videoPlayerController.value.volume == 0 ? 1 : 0;
@@ -196,16 +191,12 @@ class _VideoPostState extends State<VideoPost>
             top: 40,
             child: IconButton(
               icon: FaIcon(
-                context.watch<PlaybackConfigViewModel>().muted
+                ref.watch(playbackConfigProvider).muted
                     ? FontAwesomeIcons.volumeOff
                     : FontAwesomeIcons.volumeHigh,
                 color: Colors.white,
               ),
-              onPressed: () {
-                context
-                    .read<PlaybackConfigViewModel>()
-                    .setMuted(!context.read<PlaybackConfigViewModel>().muted);
-              },
+              onPressed: _onPlaybackConfigChanged,
             ),
           ),
           Positioned(
@@ -288,7 +279,8 @@ class _VideoPostState extends State<VideoPost>
                         ? FontAwesomeIcons.volumeHigh
                         : FontAwesomeIcons.volumeOff,
                     text: _videoPlayerController.value.volume == 1.0
-                        ? "음소거 하기" : "음소거 풀기",
+                        ? "음소거 하기"
+                        : "음소거 풀기",
                   ),
                 ),
                 Gaps.v24,
@@ -298,7 +290,7 @@ class _VideoPostState extends State<VideoPost>
                 Gaps.v24,
                 GestureDetector(
                   onTap: () => _onCommentsTap(context),
-                  child:  VideoButton(
+                  child: VideoButton(
                     icon: FontAwesomeIcons.solidComment,
                     text: S.of(context).commentCount(65656),
                   ),
