@@ -1,7 +1,7 @@
 import 'package:flutter/animation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
-import 'package:tiktok_clone/videos/video_recording_screen.dart';
+import 'package:tiktok_clone/videos/views/video_recording_screen.dart';
 import 'auth/login_screen.dart';
 import 'auth/sign_up_screen.dart';
 import 'common/main_navigation/main_navigation_screen.dart';
