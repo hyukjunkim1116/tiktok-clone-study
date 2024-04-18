@@ -4,9 +4,10 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok_clone/auth/view_models/signup_view_model.dart';
 import 'package:tiktok_clone/auth/widgets/form_button.dart';
 
-import '../constants/gaps.dart';
-import '../constants/sizes.dart';
+import '../../constants/gaps.dart';
+import '../../constants/sizes.dart';
 import 'birthday_screen.dart';
+
 
 class PasswordScreen extends ConsumerStatefulWidget {
   const PasswordScreen({super.key});

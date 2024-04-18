@@ -7,6 +7,7 @@ import 'package:gallery_saver/gallery_saver.dart';
 import 'package:video_player/video_player.dart';
 
 import '../view_models/timeline_view_model.dart';
+import '../view_models/upload_vide_view_model.dart';
 
 class VideoPreviewScreen extends ConsumerStatefulWidget {
   final XFile video;
@@ -40,7 +41,10 @@ class VideoPreviewScreenState extends ConsumerState<VideoPreviewScreen> {
   }
 
   void _onUploadPressed() async {
-    ref.read(timelineProvider.notifier).uploadVideo();
+    ref.read(uploadVideoProvider.notifier).uploadVideo(
+      File(widget.video.path),
+      context,
+    );
   }
 
   @override

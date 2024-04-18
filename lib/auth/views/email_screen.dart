@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tiktok_clone/auth/password_screen.dart';
+
 import 'package:tiktok_clone/auth/view_models/signup_view_model.dart';
+import 'package:tiktok_clone/auth/views/password_screen.dart';
 import 'package:tiktok_clone/auth/widgets/form_button.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';

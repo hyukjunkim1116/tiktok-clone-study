@@ -9,7 +9,7 @@ import 'package:tiktok_clone/utils.dart';
 
 import '../../discover/discover_screen.dart';
 import '../../inbox/inbox_screen.dart';
-import '../../users/user_profile_screen.dart';
+import '../../users/views/user_profile_screen.dart';
 import '../../videos/views/video_recording_screen.dart';
 import '../../videos/views/video_timeline_screen.dart';
 

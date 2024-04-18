@@ -2,9 +2,9 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tiktok_clone/videos/views/video_recording_screen.dart';
-import 'auth/login_screen.dart';
+import 'auth/views/login_screen.dart';
 import 'auth/repos/auth_repo.dart';
-import 'auth/sign_up_screen.dart';
+import 'auth/views/sign_up_screen.dart';
 import 'common/main_navigation/main_navigation_screen.dart';
 import 'inbox/activity_screen.dart';
 import 'inbox/chat_detail_screen.dart';
@@ -13,6 +13,7 @@ import 'onboarding/interests_screen.dart';
 
 
 final routerProvider = Provider((ref) {
+  // ref.watch(authState);
   return GoRouter(
     initialLocation: "/home",
     redirect: (context, state) {

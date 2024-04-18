@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
-import 'package:tiktok_clone/auth/username_screen.dart';
+
 import 'package:tiktok_clone/auth/view_models/social_auth_login_view_model.dart';
+import 'package:tiktok_clone/auth/views/username_screen.dart';
 import 'package:tiktok_clone/auth/widgets/auth_button.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
