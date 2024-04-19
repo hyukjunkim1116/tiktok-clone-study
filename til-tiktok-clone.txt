@@ -26,3 +26,5 @@ TODO: 채팅방 생성, 채팅글 삭제, 채팅방 내부 프로필 맞추기
 "predeploy": [
 "npm --prefix \"$RESOURCE_DIR\" run build"
 ]
+TODO: 파이어베이스 규칙 연습하기
+~30.8 security and testing/ 24.4.19
