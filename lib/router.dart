@@ -6,9 +6,10 @@ import 'auth/views/login_screen.dart';
 import 'auth/repos/auth_repo.dart';
 import 'auth/views/sign_up_screen.dart';
 import 'common/main_navigation/main_navigation_screen.dart';
-import 'inbox/activity_screen.dart';
-import 'inbox/chat_detail_screen.dart';
-import 'inbox/chats_screen.dart';
+import 'inbox/views/activity_screen.dart';
+import 'inbox/views/chat_detail_screen.dart';
+
+import 'inbox/views/chats_screen.dart';
 import 'onboarding/interests_screen.dart';
 
 

@@ -8,7 +8,8 @@ import 'package:tiktok_clone/constants/sizes.dart';
 import 'package:tiktok_clone/utils.dart';
 
 import '../../discover/discover_screen.dart';
-import '../../inbox/inbox_screen.dart';
+
+import '../../inbox/views/inbox_screen.dart';
 import '../../users/views/user_profile_screen.dart';
 import '../../videos/views/video_recording_screen.dart';
 import '../../videos/views/video_timeline_screen.dart';
@@ -55,7 +56,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor:
-      _selectedIndex == 0 || isDark ? Colors.black : Colors.white,
+          _selectedIndex == 0 || isDark ? Colors.black : Colors.white,
       body: Stack(
         children: [
           Offstage(
@@ -81,9 +82,8 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
       ),
       bottomNavigationBar: Container(
         color: _selectedIndex == 0 || isDark ? Colors.black : Colors.white,
-        padding: const EdgeInsets.only(
-          bottom: Sizes.size32,
-        ),
+        padding: EdgeInsets.only(
+            bottom: MediaQuery.of(context).padding.bottom + Sizes.size12),
         child: Padding(
           padding: const EdgeInsets.all(Sizes.size12),
           child: Row(
@@ -108,7 +108,10 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
               Gaps.h24,
               GestureDetector(
                 onTap: _onPostVideoButtonTap,
-                child: PostVideoButton(inverted: _selectedIndex != 0, height: 33,),
+                child: PostVideoButton(
+                  inverted: _selectedIndex != 0,
+                  height: 33,
+                ),
               ),
               Gaps.h24,
               NavTab(

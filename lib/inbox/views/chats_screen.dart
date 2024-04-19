@@ -5,6 +5,7 @@ import 'package:tiktok_clone/constants/sizes.dart';
 
 import 'chat_detail_screen.dart';
 
+
 class ChatsScreen extends StatefulWidget {
   static const String routeName = "chats";
   static const String routeURL = "/chats";
