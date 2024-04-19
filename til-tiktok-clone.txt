@@ -1,30 +1,30 @@
 ~4.2/
-option + command + L => 정렬
 ~7.9/ 24.4.6
 ~11.4/ 24.4.7
 ~12.8/ 24.4.7
 ~14.6/ 24.4.8
-widget catalog - 위젯 리스트
-metarial design type system
 ~15.2/ 24.4.9
-flex_color_scheme
 ~15.9/ 24.4.10
 ~19.4/ 24.4.11
+~20.11/ 24.4.14
+~24.5/ 24.4.17
+~27.0/ 24.4.18
+~30.8 security and testing/ 24.4.19
+option + command + L => 정렬
+widget catalog - 위젯 리스트
+metarial design type system
+flex_color_scheme
 camera awesome
 provider
-~20.11/ 24.4.14
-TODO:Notifier로 다크모드 토글 만들기
-~24.5/ 24.4.17
-TODO:영상 소리 로컬하게 조작하기
-TODO: profile에 사용자 이름와 생일을 포함하도록 리팩토링
-TODO: profile에 유저 정보 수정 화면, 파이어베이스와 소통
-TODO: 영상 업로드 후 제목 설명 적는 창 만들기
 image magic
-~27.0/ 24.4.18
-TODO: 좋아요 상태 유지 빨강 하트 만들기
-TODO: 채팅방 생성, 채팅글 삭제, 채팅방 내부 프로필 맞추기
 "predeploy": [
 "npm --prefix \"$RESOURCE_DIR\" run build"
 ]
+TODO: Notifier로 다크모드 토글 만들기
+TODO: 영상 소리 로컬하게 조작하기
+TODO: profile에 사용자 이름와 생일을 포함하도록 리팩토링
+TODO: profile에 유저 정보 수정 화면, 파이어베이스와 소통
+TODO: 영상 업로드 후 제목 설명 적는 창 만들기
+TODO: 좋아요 상태 유지 빨강 하트 만들기
+TODO: 채팅방 생성, 채팅글 삭제, 채팅방 내부 프로필 맞추기
 TODO: 파이어베이스 규칙 연습하기
-~30.8 security and testing/ 24.4.19
