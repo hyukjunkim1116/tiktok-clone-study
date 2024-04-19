@@ -12,6 +12,7 @@ import 'package:tiktok_clone/videos/repos/playback_config_repo.dart';
 import 'package:tiktok_clone/videos/view_models/playback_config_vm.dart';
 
 import 'firebase_options.dart';
+import 'notifications/notifications_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -42,7 +43,7 @@ class TikTokApp extends ConsumerWidget {
   const TikTokApp({super.key});
 
   @override
-  Widget build(BuildContext context,WidgetRef ref) {
+  Widget build(BuildContext context, WidgetRef ref) {
     // S.load(const Locale("en"));
     return MaterialApp.router(
       routerConfig: ref.watch(routerProvider),
